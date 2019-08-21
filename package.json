@@ -1,0 +1,27 @@
+{
+	"name": "2hex-bot",
+	"description": "Discord bot to starboard posts!",
+	"version": "0.0.1",
+	"keywords": [
+		"discord bot",
+		"javascript",
+		"starboard",
+		"posts",
+		"channel",
+		"server-server"
+	],
+	"homepage": "https://github.com/OverHash/2hex-starboard",
+	"bugs": {
+		"url": "https://github.com/OverHash/2hex-starboard/issues"
+	},
+	"license": "0BSD",
+	"author": {
+		"name": "OverHash",
+		"url": "https://github.com/OverHash"
+	},
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/OverHash/2hex-starboard"
+	}
+}
