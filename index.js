@@ -65,7 +65,6 @@ bot.on('ready', () => {
 bot.on('message', message => {
 	/* Check to see if it is a new submission */
 	if (message.channel.id === communitySubmissionChannelId) {
-		if (message.content !== '') return message.delete();
 		addCollector(message);
 	}
 
