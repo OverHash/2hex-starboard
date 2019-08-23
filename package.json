@@ -20,7 +20,7 @@
 		"url": "https://github.com/OverHash"
 	},
 	"main": "index.js",
-	"bin": 	"bin.js", 
+	"bin": "bin.js",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/OverHash/2hex-starboard"
@@ -28,7 +28,11 @@
 	"dependencies": {
 		"discord.js": "^11.5.1",
 		"dotenv": "^8.1.0",
-		"pkg": "^4.4.0",
+		"eslintrc": "^1.0.6",
 		"quick.db": "^7.0.0-b22"
+	},
+	"devDependencies": {
+		"eslint": "^6.2.1",
+		"eslint-config-google": "^0.13.0"
 	}
 }

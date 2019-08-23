@@ -15,7 +15,6 @@ Then, configure the config.json file to have the properties set up as you like:<
 `prefix`(any) - The prefix for the bot<br>
 `communityGuildId`(string) - The community guild where users can post submissions<br>
 `starboardGuildId`(string) - The starboard guild id where submissions past `reactionsNeeded` will go<br>
-`communitySubmissionChannelId` - The channel where submissions are posted<br>
 `starboardChannelId` - The guild where the starboard goes<br>
 `reaction` - What reaction is given to all submissions<br>
 `reactionsNeeded` - The amount of reactions needed for a post to go from community board --> starboard<br>
