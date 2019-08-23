@@ -3,9 +3,10 @@ const fs = require('fs');
 const quickDb = require('quick.db');
 const discord = require('discord.js');
 
-const { prefix, communityGuildId, starboardGuildId, communitySubmissionChannelId, starboardChannelId, reaction, reactionsNeeded } = require('./config.json');
+const { prefix, communityGuildId, starboardGuildId, communitySubmissionChannelId, reaction, reactionsNeeded } = require('./config.json');
 
 const createStarpost = require('./functions/createStarpost.js');
+const getStarboard = require('./functions/getStarboard.js');
 
 
 const bot = new discord.Client();
@@ -19,11 +20,11 @@ for (const file of commandFiles) {
 }
 
 const filter = react => react.emoji.name === reaction;
-function addCollector(message) {
-	const bot = message.client;
-	const newGuild = bot.guilds.get(starboardGuildId);
+async function addCollector(message) {
+	const newGuild = message.client.guilds.get(starboardGuildId);
 	if (!newGuild) return console.error('Unable to get starboard guild!');
-	const newChannel = newGuild.channels.get(starboardChannelId);
+	const newChannel = await getStarboard(newGuild);
+	console.log('Starboard channel name: ' + newChannel.name);
 	if (!newChannel) return console.error('Unable to get starboard channel!');
 
 	/* Create reaction collector */
