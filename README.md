@@ -10,7 +10,7 @@ Clone the github repository, and install dependencies as follows:
 npm install quick.db
 npm install discord.js
 ```
-<br\> <br\>
+<br> <br>
 Note that with discord.js it is required to have python 2.x (preferably 2.6) and if on windows, the Visual C++ Build Tools (`npm install --global windows-build-tools --vs2015`)
 
 Then, configure the config.json file to have the properties set up as you like:<br>
