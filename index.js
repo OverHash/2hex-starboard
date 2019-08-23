@@ -24,15 +24,13 @@ async function addCollector(message) {
 	const newGuild = message.client.guilds.get(starboardGuildId);
 	if (!newGuild) return console.error('Unable to get starboard guild!');
 	const newChannel = await getStarboard(newGuild);
-	console.log('Starboard channel name: ' + newChannel.name);
 	if (!newChannel) return console.error('Unable to get starboard channel!');
 
 	/* Create reaction collector */
 	message.awaitReactions(filter, { max: reactionsNeeded })
 		.then(() => {
 			const currentArchive = quickDb.add('currentArchive', 1);
-			quickDb.set('archiveData_' + currentArchive, { channel: message.channel.id, guild: message.guild.id, message: message.id });
-
+			quickDb.set('archiveData_' + currentArchive, { channel: message.channel.id, guild: message.guild.id, message: message.id, date: new Date, authorId: message.author.id });
 			/* Create the starboard post */
 			newChannel.send(createStarpost(message, currentArchive));
 		})
@@ -47,7 +45,6 @@ bot.on('ready', () => {
 	const guild = bot.guilds.get(communityGuildId);
 
 	if (guild && guild.available) {
-		console.log('Community guild available');
 		const submissionChannel = guild.channels.get(communitySubmissionChannelId);
 
 		if (submissionChannel) {
@@ -55,8 +52,6 @@ bot.on('ready', () => {
 				.then(pastMessages => pastMessages.filter(message => message.reactions.first().emoji.name == reaction && message.reactions.first().count < reactionsNeeded).forEach(message => addCollector(message)))
 				.catch(console.error);
 		}
-	} else {
-		console.log('Guild not available!');
 	}
 });
 
