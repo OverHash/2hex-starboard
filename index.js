@@ -34,9 +34,9 @@ async function addCollector(message) {
 			/* Create the starboard post */
 			newChannel.send(createStarpost(message, currentArchive))
 				.then(async msg => {
+					await msg.react('🌟');
 					await msg.react('👍');
 					await msg.react('😯');
-					await msg.react('🌟');
 					await msg.react('👌');
 					await msg.react('💛');
 				});
