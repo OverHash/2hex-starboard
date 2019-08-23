@@ -32,7 +32,14 @@ async function addCollector(message) {
 			const currentArchive = quickDb.add('currentArchive', 1);
 			quickDb.set('archiveData_' + currentArchive, { channel: message.channel.id, guild: message.guild.id, message: message.id, date: new Date, authorId: message.author.id });
 			/* Create the starboard post */
-			newChannel.send(createStarpost(message, currentArchive));
+			newChannel.send(createStarpost(message, currentArchive))
+				.then(async msg => {
+					await msg.react('👍');
+					await msg.react('😯');
+					await msg.react('🌟');
+					await msg.react('👌');
+					await msg.react('💛');
+				});
 		})
 		.catch(console.log);
 
