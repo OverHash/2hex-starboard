@@ -6,7 +6,7 @@ module.exports = function(message, archiveNumber) {
 	return new discord.RichEmbed()
 		.setColor('#00BFFF')
 		.setAuthor('ID #' + archiveNumber, 'https://cdn.discordapp.com/avatars/' + message.author.id + '/' + message.author.avatar)
-		.setImage(message.attachments.first().url)
+		.setImage(message.embeds[0].url)
 
 		.addField('Author', '<@' + data.authorId + '>', true)
 		.addField('Source', '[jump](https://discordapp.com/channels/' + message.guild.id + '/' + message.channel.id + '/' + message.id + ')', true)

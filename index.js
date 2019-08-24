@@ -16,7 +16,7 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 
-	bot.commands.set(command.name, command);
+	bot.commands.set(command.name.toLowerCase(), command);
 }
 
 const filter = react => react.emoji.name === reaction;
