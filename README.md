@@ -29,3 +29,6 @@ node .
 
 ## License
 [0BSD](https://opensource.org/licenses/0BSD)
+
+##Demo
+See a demo at [This Discord Server](https://discord.gg/NKWddTg)
