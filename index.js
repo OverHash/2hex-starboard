@@ -30,7 +30,7 @@ async function addCollector(message) {
 	message.awaitReactions(filter, { max: reactionsNeeded })
 		.then(() => {
 			const currentArchive = quickDb.add('currentArchive', 1);
-			quickDb.set('archiveData_' + currentArchive, { channel: message.channel.id, guild: message.guild.id, message: message.id, date: new Date, authorId: message.author.id });
+			const data = quickDb.set('archiveData_' + currentArchive, { channel: message.channel.id, guild: message.guild.id, message: message.id, date: new Date, authorId: message.author.id });
 			/* Create the starboard post */
 			newChannel.send(createStarpost(message, currentArchive))
 				.then(async msg => {
@@ -39,6 +39,8 @@ async function addCollector(message) {
 					await msg.react('😯');
 					await msg.react('👌');
 					await msg.react('💛');
+					data.starboardId = msg.id;
+					quickDb.set('archiveData_' + currentArchive, data);
 				});
 		})
 		.catch(console.log);

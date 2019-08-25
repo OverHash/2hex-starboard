@@ -24,7 +24,7 @@ module.exports = {
 		}
 
 		const currentArchive = quickDb.add('currentArchive', 1);
-		quickDb.set('archiveData_' + currentArchive, { channel: submission.channel.id, guild: submission.guild.id, message: submission.id, date: new Date, authorId: submission.author.id });
+		const data = quickDb.set('archiveData_' + currentArchive, { channel: submission.channel.id, guild: submission.guild.id, message: submission.id, date: new Date, authorId: submission.author.id });
 		/* Create the starboard post */
 		newChannel.send(createStarpost(submission, currentArchive))
 			.then(async msg => {
@@ -33,6 +33,9 @@ module.exports = {
 				await msg.react('😯');
 				await msg.react('👌');
 				await msg.react('💛');
+
+				data.starboardId = msg.id;
+				quickDb.set('archiveData_' + currentArchive, data);
 			});
 	},
 };
