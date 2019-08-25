@@ -31,4 +31,4 @@ node .
 [0BSD](https://opensource.org/licenses/0BSD)
 
 ## Demo
-See a demo at [This Discord Server](https://discord.gg/NKWddTg)
+See a demo at [This Discord Server](http://devarchives.xyz/discord), with the starboard [Here](https://discordapp.com/invite/NnH4zTG)
