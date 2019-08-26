@@ -26,6 +26,8 @@ async function addCollector(message) {
 	const newChannel = await getStarboard(newGuild);
 	if (!newChannel) return console.error('Unable to get starboard channel!');
 
+	if (!((message.embeds[0] && message.embeds[0].url) || (message.attachments.first()))) return;
+
 	/* Create reaction collector */
 	message.awaitReactions(filter, { max: reactionsNeeded })
 		.then(() => {
