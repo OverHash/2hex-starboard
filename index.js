@@ -26,7 +26,7 @@ async function addCollector(message) {
 	const newChannel = await getStarboard(newGuild);
 	if (!newChannel) return console.error('Unable to get starboard channel!');
 
-	if (!((message.embeds[0] && message.embeds[0].url) || (message.attachments.first()))) return;
+	if (!((message.embeds[0] && (message.embeds[0].url || (message.embeds[0].image)) || (message.attachments.first())))) return;
 
 	/* Create reaction collector */
 	message.awaitReactions(filter, { max: reactionsNeeded })
@@ -43,6 +43,22 @@ async function addCollector(message) {
 					await msg.react('💛');
 					data.starboardId = msg.id;
 					quickDb.set('archiveData_' + currentArchive, data);
+
+
+					const embedMessage = new discord.RichEmbed()
+						.setAuthor('Archives')
+						.setTitle('Post archived!')
+						.setColor('#4ceb34')
+						.setDescription('Congratulations! 🎉\nThe community loved your post so much we decided to archive it in another discord server.')
+						.addField('Jump to archive', '[jump](https://discordapp.com/channels/' + msg.guild.id + '/' + msg.channel.id + '/' + msg.id + ')', true)
+						.addField('Invite to archive server', '[Invite](http://devarchives.xyz/archives)', true)
+
+						.setTimestamp();
+
+					message.author.send(embedMessage)
+						.catch('Failed here');
+
+					message.react('✅');
 				});
 		})
 		.catch(console.log);
@@ -52,6 +68,7 @@ async function addCollector(message) {
 
 bot.on('ready', () => {
 	console.log('Bot is now live!');
+
 	/* Get all previous messages and check if they have been scanned */
 	const guild = bot.guilds.get(communityGuildId);
 
@@ -60,7 +77,7 @@ bot.on('ready', () => {
 
 		if (submissionChannel) {
 			submissionChannel.fetchMessages()
-				.then(pastMessages => pastMessages.filter(message => message.reactions.first().emoji.name == reaction && message.reactions.first().count < reactionsNeeded).forEach(message => addCollector(message)))
+				.then(pastMessages => pastMessages.filter(message => ((!message.reactions.first()) || (message.reactions.first().emoji.name === reaction && message.reactions.first().count < reactionsNeeded))).forEach(message => addCollector(message)))
 				.catch(console.error);
 		}
 	}

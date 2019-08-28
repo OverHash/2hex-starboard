@@ -13,7 +13,9 @@ module.exports = function(message, archiveNumber) {
 		.setTimestamp(data.date)
 		.setFooter('Stored at');
 
-	if (message.embeds[0] && message.embeds[0].url) {
+	if (message.embeds[0] && message.embeds[0].image) {
+		embed.setImage(message.embeds[0].image.url);
+	} else if (message.embeds[0] && message.embeds[0].url) {
 		embed.setImage(message.embeds[0].url);
 	} else if (message.attachments.first()) {
 		embed.setImage(message.attachments.first().url);
