@@ -11,7 +11,7 @@ module.exports = {
 	async execute(message, args) {
 		if (!isModerator(message.member)) return message.channel.send('You are unable to use this command!').delete(2500);
 
-		const newGuild = message.client.guilds.get(starboardGuildId);
+		const newGuild = message.client.guilds.get(process.env.STARBOARDGUILDID || starboardGuildId);
 		if (!newGuild) return console.error('Unable to get starboard guild!');
 
 		const newChannel = await getStarboard(newGuild);

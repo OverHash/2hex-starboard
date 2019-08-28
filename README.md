@@ -21,6 +21,16 @@ Then, configure the config.json file to have the properties set up as you like:<
 `reaction` - What reaction is given to all submissions<br>
 `reactionsNeeded` - The amount of reactions needed for a post to go from community board --> starboard<br>
 
+# Enviromental Variables
+`BOT_TOKEN` = bot token
+`PREFIX` = the prefix for all the bot commands
+`COMMUNITYGUILDID` = The community guild ID for submissions
+`STARBOARDGUILDID` = The starboard guild ID
+`COMMUNITYSUBMISSIONCHANNELID` = The community submission channel ID
+`REACTION` = The reaction when messages are posted
+`REACTIONSNEEDED` = The amount of reactions for a starboard post to be created
+
+**NOTE: ENVIROMENTAL VARIABLES OVERRIDE CONFIG FILES**
 
 ## Usage
 ```js

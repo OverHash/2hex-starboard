@@ -21,7 +21,7 @@ module.exports = {
 		/* Delete the submission */
 		message.client.guilds.get(archiveData.guild).channels.get(archiveData.channel).fetchMessage(archiveData.message)
 			.then(msg => msg.delete());
-		const starboard = await getStarboard(message.client.guilds.get(starboardGuildId));
+		const starboard = await getStarboard(message.client.guilds.get(process.env.STARBOARDGUILDID || starboardGuildId));
 
 		starboard.fetchMessage(archiveData.starboardId)
 			.then(msg => msg.delete());

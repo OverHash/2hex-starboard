@@ -19,9 +19,9 @@ for (const file of commandFiles) {
 	bot.commands.set(command.name.toLowerCase(), command);
 }
 
-const filter = react => react.emoji.name === reaction;
+const filter = react => react.emoji.name === (process.env.REACTION || reaction);
 async function addCollector(message) {
-	const newGuild = message.client.guilds.get(starboardGuildId);
+	const newGuild = message.client.guilds.get(process.env.STARBOARDGUILDID || starboardGuildId);
 	if (!newGuild) return console.error('Unable to get starboard guild!');
 	const newChannel = await getStarboard(newGuild);
 	if (!newChannel) return console.error('Unable to get starboard channel!');
@@ -29,7 +29,7 @@ async function addCollector(message) {
 	if (!((message.embeds[0] && (message.embeds[0].url || (message.embeds[0].image)) || (message.attachments.first())))) return;
 
 	/* Create reaction collector */
-	message.awaitReactions(filter, { max: reactionsNeeded })
+	message.awaitReactions(filter, { max: process.env.REACTIONSNEEDED || reactionsNeeded })
 		.then(() => {
 			const currentArchive = quickDb.add('currentArchive', 1);
 			const data = quickDb.set('archiveData_' + currentArchive, { channel: message.channel.id, guild: message.guild.id, message: message.id, date: new Date, authorId: message.author.id });
@@ -63,21 +63,21 @@ async function addCollector(message) {
 		})
 		.catch(console.log);
 
-	message.react(reaction);
+	message.react(process.env.REACTION || reaction);
 }
 
 bot.on('ready', () => {
 	console.log('Bot is now live!');
 
 	/* Get all previous messages and check if they have been scanned */
-	const guild = bot.guilds.get(communityGuildId);
+	const guild = bot.guilds.get(process.env.COMMUNITYGUILDID || communityGuildId);
 
 	if (guild && guild.available) {
-		const submissionChannel = guild.channels.get(communitySubmissionChannelId);
+		const submissionChannel = guild.channels.get(process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId);
 
 		if (submissionChannel) {
 			submissionChannel.fetchMessages()
-				.then(pastMessages => pastMessages.filter(message => ((!message.reactions.first()) || (message.reactions.first().emoji.name === reaction && message.reactions.first().count < reactionsNeeded))).forEach(message => addCollector(message)))
+				.then(pastMessages => pastMessages.filter(message => ((!message.reactions.first()) || (message.reactions.first().emoji.name === (process.env.REACTION || reaction) && message.reactions.first().count < (process.env.REACTIONSNEEDED || reactionsNeeded)))).forEach(message => addCollector(message)))
 				.catch(console.error);
 		}
 	}
@@ -85,13 +85,13 @@ bot.on('ready', () => {
 
 bot.on('message', message => {
 	/* Check to see if it is a new submission */
-	if (message.channel.id === communitySubmissionChannelId) {
+	if (message.channel.id === (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId)) {
 		addCollector(message);
 	}
 
 	/* Generic commads */
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
-	const args = message.content.slice(prefix.length).split(/ +/);
+	if (!message.content.startsWith(process.env.PREFIX || prefix) || message.author.bot) return;
+	const args = message.content.slice((process.env.PREFIX || prefix).length).split(/ +/);
 	const command = args.shift().toLowerCase();
 
 	if (bot.commands.get(command)) {
