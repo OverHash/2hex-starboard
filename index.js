@@ -67,7 +67,8 @@ async function addCollector(message) {
 }
 
 bot.on('ready', () => {
-	console.log('Bot is now live!');
+	console.log('Bot logged in as ' + bot.user.username + '#' + bot.user.discriminator + ' with id: ' + bot.user.id);
+	console.log('LIST OF GUILDS AVAILABLE: ' + bot.guilds.map(guild => guild.name + '\n') + 'END OF GUILDS AVAILABLE')
 
 	/* Get all previous messages and check if they have been scanned */
 	const guild = bot.guilds.get(process.env.COMMUNITYGUILDID || communityGuildId);
@@ -80,6 +81,8 @@ bot.on('ready', () => {
 				.then(pastMessages => pastMessages.filter(message => ((!message.reactions.first()) || (message.reactions.first().emoji.name === (process.env.REACTION || reaction) && message.reactions.first().count < (process.env.REACTIONSNEEDED || reactionsNeeded)))).forEach(message => addCollector(message)))
 				.catch(console.error);
 		}
+	} else {
+		console.log("\x1b[37m\x1b[41m\x1b[1m" + 'GUILD NOT AVAILABLE. PLEASE CHECK THE ID FOR THE COMMUNITY GUILD' + "\x1b[0m");
 	}
 });
 
