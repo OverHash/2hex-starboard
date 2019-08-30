@@ -68,7 +68,7 @@ async function addCollector(message) {
 
 bot.on('ready', () => {
 	console.log('Bot logged in as ' + bot.user.username + '#' + bot.user.discriminator + ' with id: ' + bot.user.id);
-	console.log('LIST OF GUILDS AVAILABLE: ' + bot.guilds.map(guild => guild.name + '\n') + 'END OF GUILDS AVAILABLE')
+	console.log('LIST OF GUILDS AVAILABLE:' + bot.guilds.map(guild => '\n' + guild.name) + '\nEND OF GUILDS AVAILABLE')
 
 	/* Get all previous messages and check if they have been scanned */
 	const guild = bot.guilds.get(process.env.COMMUNITYGUILDID || communityGuildId);
