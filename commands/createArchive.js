@@ -18,24 +18,31 @@ module.exports = {
 
 		const submissionId = args[0];
 
-		const submission = await message.channel.fetchMessage(submissionId);
-		if (!submission) {
-			return message.channel.send('Please set the first parameter as the submission message id');
-		}
+		message.channel.fetchMessage(submissionId)
+			.then(submission => {
+				const currentArchive = quickDb.add('currentArchive', 1);
+				const data = quickDb.set('archiveData_' + currentArchive, { channel: submission.channel.id, guild: submission.guild.id, message: submission.id, date: new Date, authorId: submission.author.id });
+				/* Create the starboard post */
+				newChannel.send(createStarpost(submission, currentArchive))
+					.then(async msg => {
+						message.channel.send('Post archived', msg.embeds[0])
+							.then(notifier => notifier.delete(2500));
+						message.delete();
 
-		const currentArchive = quickDb.add('currentArchive', 1);
-		const data = quickDb.set('archiveData_' + currentArchive, { channel: submission.channel.id, guild: submission.guild.id, message: submission.id, date: new Date, authorId: submission.author.id });
-		/* Create the starboard post */
-		newChannel.send(createStarpost(submission, currentArchive))
-			.then(async msg => {
-				await msg.react('🌟');
-				await msg.react('👍');
-				await msg.react('😯');
-				await msg.react('👌');
-				await msg.react('💛');
+						await msg.react('🌟');
+						await msg.react('👍');
+						await msg.react('😯');
+						await msg.react('👌');
+						await msg.react('💛');
 
-				data.starboardId = msg.id;
-				quickDb.set('archiveData_' + currentArchive, data);
-			});
+						data.starboardId = msg.id;
+						quickDb.set('archiveData_' + currentArchive, data);
+					});
+			})
+			.catch(err => {
+				console.log(err);
+				message.channel.send('Please set the first parameter as the submission message id')
+					.then(msg => msg.delete(2500))
+			})
 	},
 };
