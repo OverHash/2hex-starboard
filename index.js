@@ -87,6 +87,8 @@ bot.on('ready', () => {
 	} else {
 		console.log("\x1b[37m\x1b[41m\x1b[1m" + 'GUILD NOT AVAILABLE. PLEASE CHECK THE ID FOR THE COMMUNITY GUILD' + "\x1b[0m");
 	}
+
+	console.log('submission channel ID: ' + (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId))
 });
 
 bot.on('message', message => {
