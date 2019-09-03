@@ -102,4 +102,8 @@ bot.on('message', message => {
 	}
 });
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(process.env.BOT_TOKEN);	return console.error('Please provide the bot token as the BOT_TOKEN enviromental variable')
+}
+
+bot.login(process.env.BOT_TOKEN)
+	.catch(console.error);
