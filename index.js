@@ -29,7 +29,7 @@ async function addCollector(message) {
 	if (!((message.embeds[0] && (message.embeds[0].url || (message.embeds[0].image)) || (message.attachments.first())))) return;
 
 	/* Create reaction collector */
-	message.awaitReactions(filter, { max: process.env.REACTIONSNEEDED || reactionsNeeded })
+	message.awaitReactions(filter, { max: (process.env.REACTIONSNEEDED || reactionsNeeded) })
 		.then(() => {
 			const currentArchive = quickDb.add('currentArchive', 1);
 			const data = quickDb.set('archiveData_' + currentArchive, { channel: message.channel.id, guild: message.guild.id, message: message.id, date: new Date, authorId: message.author.id });
@@ -56,7 +56,7 @@ async function addCollector(message) {
 						.setTimestamp();
 
 					message.author.send(embedMessage)
-						.catch('Failed here');
+						.catch(error('Failed here'));
 
 					message.react('✅');
 				});

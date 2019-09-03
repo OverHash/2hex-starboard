@@ -3,3 +3,5 @@ node_modules
 .eslintrc.json
 json.sqlite
 package-lock.json
+.gitignore
+config.json
