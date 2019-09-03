@@ -68,6 +68,9 @@ async function addCollector(message) {
 
 bot.on('ready', () => {
 	console.log('Bot logged in as ' + bot.user.username + '#' + bot.user.discriminator + ' with id: ' + bot.user.id);
+	console.log('Prefix: ' + (process.env.PREFIX || prefix))
+	console.log('Reaction: ' + (process.env.REACTION || reaction))
+	console.log('Reactions Needed: ' + (process.env.REACTIONSNEEDED || reactionsNeeded))
 	console.log('LIST OF GUILDS AVAILABLE:' + bot.guilds.map(guild => '\n' + guild.name) + '\nEND OF GUILDS AVAILABLE')
 
 	/* Get all previous messages and check if they have been scanned */
@@ -102,7 +105,8 @@ bot.on('message', message => {
 	}
 });
 
-bot.login(process.env.BOT_TOKEN);	return console.error('Please provide the bot token as the BOT_TOKEN enviromental variable')
+if (!process.env.BOT_TOKEN) {
+	return console.error('Please provide the bot token as the BOT_TOKEN enviromental variable')
 }
 
 bot.login(process.env.BOT_TOKEN)
