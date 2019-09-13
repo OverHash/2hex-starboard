@@ -2,7 +2,8 @@
 A discord bot that runs a starboard for users
 
 # Requirements
-Node installed with NPM. I use v10.16.3 for node and 6.9.0 for npm, but earlier versions should work
+**npm 6.0.0 or later is required**
+Node installed with npm. I use v10.16.3 for node and 6.9.0 for npm, but earlier versions should work
 
 # Installation
 Clone the github repository, and install dependencies as follows:
@@ -15,6 +16,7 @@ Note that with discord.js it is required to have python 2.x (preferably 2.6) and
 
 Then, configure the config.json file to have the properties set up as you like:<br>
 `prefix`(any) - The prefix for the bot<br>
+`roleGivePrefix` (string) - the prefix users can you use to give/remove roles<br>
 `communityGuildId`(string) - The community guild where users can post submissions<br>
 `starboardGuildId`(string) - The starboard guild id where submissions past `reactionsNeeded` will go<br>
 `starboardChannelId` - The guild where the starboard goes<br>
@@ -24,6 +26,7 @@ Then, configure the config.json file to have the properties set up as you like:<
 # Enviromental Variables
 `BOT_TOKEN` = bot token<br>
 `PREFIX` = the prefix for all the bot commands<br>
+`ROLEGIVEPREFIX` = the prefix users use to give/remove roles<br>
 `COMMUNITYGUILDID` = The community guild ID for submissions<br>
 `STARBOARDGUILDID` = The starboard guild ID<br>
 `COMMUNITYSUBMISSIONCHANNELID` = The community submission channel ID<br>
