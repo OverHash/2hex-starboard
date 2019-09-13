@@ -3,10 +3,11 @@ const fs = require('fs');
 const quickDb = require('quick.db');
 const discord = require('discord.js');
 
-const { prefix, communityGuildId, starboardGuildId, communitySubmissionChannelId, reaction, reactionsNeeded } = require('./config.json');
+const { prefix, roleGivePrefix, communityGuildId, starboardGuildId, communitySubmissionChannelId, reaction, reactionsNeeded } = require('./config.json');
 
-const createStarpost = require('./functions/createStarpost.js');
+const addRole = require('./functions/addRole.js')
 const getStarboard = require('./functions/getStarboard.js');
+const createStarpost = require('./functions/createStarpost.js');
 
 
 const bot = new discord.Client();
@@ -69,6 +70,7 @@ async function addCollector(message) {
 bot.on('ready', () => {
 	console.log('Bot logged in as ' + bot.user.username + '#' + bot.user.discriminator + ' with id: ' + bot.user.id);
 	console.log('Prefix: ' + (process.env.PREFIX || prefix))
+	console.log('Role give prefix: ' + (process.env.ROLEGIVEPREFIX || roleGivePrefix))
 	console.log('Reaction: ' + (process.env.REACTION || reaction))
 	console.log('Reactions Needed: ' + (process.env.REACTIONSNEEDED || reactionsNeeded))
 	console.log('LIST OF GUILDS AVAILABLE:' + bot.guilds.map(guild => '\n' + guild.name) + '\nEND OF GUILDS AVAILABLE')
@@ -97,6 +99,11 @@ bot.on('message', message => {
 		addCollector(message);
 	}
 
+	/* Check to see if it is a role give */
+	if (message.content.startsWith(process.env.ROLEGIVEPREFIX || roleGivePrefix) && !message.author.bot) {
+		addRole(message);
+	}
+
 	/* Generic commads */
 	if (!message.content.startsWith(process.env.PREFIX || prefix) || message.author.bot) return;
 	const args = message.content.slice((process.env.PREFIX || prefix).length).split(/ +/);
@@ -108,7 +115,8 @@ bot.on('message', message => {
 });
 
 if (!process.env.BOT_TOKEN) {
-	return console.error('Please provide the bot token as the BOT_TOKEN enviromental variable')
+	console.error('Please provide the bot token as the BOT_TOKEN enviromental variable');
+	process.exit();
 }
 
 bot.login(process.env.BOT_TOKEN)
