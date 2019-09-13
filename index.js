@@ -56,7 +56,7 @@ async function addCollector(message) {
 						.setTimestamp();
 
 					message.author.send(embedMessage)
-						.catch(error('Failed here'));
+						.catch(console.error);
 
 					message.react('✅');
 				});
