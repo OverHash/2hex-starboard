@@ -50,7 +50,6 @@ module.exports = function(message) {
 
 	const responseEmbed = new discord.RichEmbed()
 		.setAuthor(member.displayName)
-		.setColor('#32CD32')
 		.setFooter('Made by OverHash#6449')
 		.setTimestamp()
 		.setTitle('Role changes');
@@ -58,11 +57,13 @@ module.exports = function(message) {
 	if (memberRoles.find(r => r.name == role.name)) {
 		/* remove the role */
 		member.removeRole(role, 'User requested to remove this role');
-		responseEmbed.setDescription('✅ Successfully removed the role ' + role.name);
+		responseEmbed.setDescription('✅ Successfully removed the role ' + role.name)
+		responseEmbed.setColor('#FF4136');
 	} else {
 		/* add them the role */
 		member.addRole(role, 'User requested to receive this role');
-		responseEmbed.setDescription('✅ Successfully gave you the role ' + role.name);
+		responseEmbed.setDescription('✅ Successfully gave you the role ' + role.name)
+		responseEmbed.setColor('#32CD32');
 	}
 
 	message.channel.send(responseEmbed);
