@@ -7,6 +7,7 @@ const { prefix, roleGivePrefix, communityGuildId, starboardGuildId, communitySub
 
 const addRole = require('./functions/addRole.js')
 const getStarboard = require('./functions/getStarboard.js');
+const createArchive = require('./functions/createArchive.js')
 const createStarpost = require('./functions/createStarpost.js');
 
 
@@ -18,53 +19,6 @@ for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 
 	bot.commands.set(command.name.toLowerCase(), command);
-}
-
-const filter = react => react.emoji.name === (process.env.REACTION || reaction);
-async function addCollector(message) {
-	const newGuild = message.client.guilds.get(process.env.STARBOARDGUILDID || starboardGuildId);
-	if (!newGuild) return console.error('Unable to get starboard guild!');
-	const newChannel = await getStarboard(newGuild);
-	if (!newChannel) return console.error('Unable to get starboard channel!');
-
-	if (!((message.embeds[0] && (message.embeds[0].url || (message.embeds[0].image)) || (message.attachments.first())))) return;
-
-	/* Create reaction collector */
-	message.awaitReactions(filter, { max: (process.env.REACTIONSNEEDED || reactionsNeeded) })
-		.then(() => {
-			const currentArchive = quickDb.add('currentArchive', 1);
-			const data = quickDb.set('archiveData_' + currentArchive, { channel: message.channel.id, guild: message.guild.id, message: message.id, date: new Date, authorId: message.author.id });
-			/* Create the starboard post */
-			newChannel.send(createStarpost(message, currentArchive))
-				.then(async msg => {
-					await msg.react('🌟');
-					await msg.react('👍');
-					await msg.react('😯');
-					await msg.react('👌');
-					await msg.react('💛');
-					data.starboardId = msg.id;
-					quickDb.set('archiveData_' + currentArchive, data);
-
-
-					const embedMessage = new discord.RichEmbed()
-						.setAuthor('Archives')
-						.setTitle('Post archived!')
-						.setColor('#4ceb34')
-						.setDescription('Congratulations! 🎉\nThe community loved your post so much we decided to archive it in another discord server.')
-						.addField('Jump to archive', '[jump](https://discordapp.com/channels/' + msg.guild.id + '/' + msg.channel.id + '/' + msg.id + ')', true)
-						.addField('Invite to archive server', '[Invite](http://devarchives.xyz/archives)', true)
-
-						.setTimestamp();
-
-					message.author.send(embedMessage)
-						.catch(console.error);
-
-					message.react('✅');
-				});
-		})
-		.catch(console.log);
-
-	message.react(process.env.REACTION || reaction);
 }
 
 bot.on('ready', () => {
@@ -83,7 +37,7 @@ bot.on('ready', () => {
 
 		if (submissionChannel) {
 			submissionChannel.fetchMessages()
-				.then(pastMessages => pastMessages.filter(message => ((!message.reactions.first()) || (message.reactions.first().emoji.name === (process.env.REACTION || reaction) && message.reactions.first().count < (process.env.REACTIONSNEEDED || reactionsNeeded)))).forEach(message => addCollector(message)))
+				.then(pastMessages => pastMessages.filter(message => (message.attachments.first() || (message.embeds[0] && (message.embeds[0].image || message.embeds[0].video)))).forEach(message => message.react(process.env.REACTION || reaction)))
 				.catch(console.error);
 		}
 	} else {
@@ -95,8 +49,8 @@ bot.on('ready', () => {
 
 bot.on('message', message => {
 	/* Check to see if it is a new submission */
-	if (message.channel.id === (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId)) {
-		addCollector(message);
+	if (message.channel.id === (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId) && (message.attachments.first() || (message.embeds[0] && (message.embeds[0].image || message.embeds[0].video)))) {
+		message.react(process.env.REACTION || reaction);
 	}
 
 	/* Check to see if it is a role give */
@@ -113,6 +67,18 @@ bot.on('message', message => {
 		bot.commands.get(command).execute(message, args);
 	}
 });
+
+bot.on('messageReactionAdd', (reaction, user) => {
+	const message = reaction.message;
+	/* Check to see if it is a submission */
+	if (message.channel.id === (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId)) {
+		/* Check to see if the message has already surpassed the required threshold */
+		if ((reaction.count >= (process.env.REACTIONSNEEDED || reactionsNeeded)) && !(message.reactions.filter(obj =>  obj.emoji.name === '✅').first())) {
+			/* message can be posted */
+			createArchive(message);
+		}
+	}
+})
 
 if (!process.env.BOT_TOKEN) {
 	console.error('Please provide the bot token as the BOT_TOKEN enviromental variable');
