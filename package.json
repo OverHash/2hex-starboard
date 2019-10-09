@@ -27,6 +27,7 @@
 	},
 	"dependencies": {
 		"discord.js": "^11.5.1",
+		"discordjs-embed-converter": "^1.2.2",
 		"dotenv": "^8.1.0",
 		"eslintrc": "^1.0.6",
 		"quick.db": "^7.0.0-b22"
