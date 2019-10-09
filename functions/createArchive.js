@@ -38,8 +38,10 @@ module.exports = async function(message) {
 				.setTimestamp();
 
 			message.author.send(embedMessage)
-				.catch(console.error);
+				.catch(() => {
+					console.log('Unable to DM ' + message.author.username);
+				});
 
 			message.react('✅');
 		});
-}
+};

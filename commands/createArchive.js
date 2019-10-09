@@ -19,12 +19,12 @@ module.exports = {
 
 		message.channel.fetchMessage(submissionId)
 			.then(submission => {
-				createArchive(message)
+				createArchive(message);
 			})
 			.catch(err => {
 				console.log(err);
 				message.channel.send('Please set the first parameter as the submission message id')
-					.then(msg => msg.delete(2500))
-			})
+					.then(msg => msg.delete(2500));
+			});
 	},
 };
