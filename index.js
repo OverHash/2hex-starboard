@@ -68,35 +68,29 @@ bot.on('message', async message => {
 					const oldEmbed = embedMsg.embeds[0];
 					const newEmbed = msgEmbedToRich(oldEmbed);
 
-					// delete msg (maybe)
-					if (currentEmbeds[k].deleteMsg) {
-						message.channel.fetchMessage(currentEmbeds[k].deleteMsg)
-							.then((msg) => {
-								msg.delete()
-									.catch();
-								currentEmbeds[k].deleteMsg = null;
-							})
-							.catch();
-					}
-
+					let changedSomething = false;
+					let newDeleteMsg = null;
 					// create fields
-
 					if (embed.status === '🅰') {
 						// title
 						newEmbed.setTitle(message.content);
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === '🌈') {
 						// color
 						newEmbed.setColor(message.content);
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === '🔗') {
 						// url
 						newEmbed.setURL(message.content);
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === '👣') {
 						// footer
 						newEmbed.setFooter(message.content);
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === '🕖') {
 						// timestamp
 						if (message.content === 'on') {
@@ -105,10 +99,12 @@ bot.on('message', async message => {
 							newEmbed.setTimestamp(0);
 						}
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === '📧') {
 						// description
 						newEmbed.setDescription(message.content);
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === '🇫') {
 						// edit field
 						if (message.content === 'create') {
@@ -116,80 +112,104 @@ bot.on('message', async message => {
 							currentEmbeds[k].status = null;
 							const msg = await message.channel.send('Created field with id ' + (newEmbed.fields.length - 1));
 							// eslint-disable-next-line require-atomic-updates
-							currentEmbeds[k].deleteMsg = msg.id;
+							newDeleteMsg = msg.id;
 						} else if (message.content === 'delete') {
 							currentEmbeds[k].status = 'deleteFieldId';
 							const msg = await message.channel.send('Please specify what field ID you want to delete');
 
 							// eslint-disable-next-line require-atomic-updates
-							currentEmbeds[k].deleteMsg = msg.id;
+							newDeleteMsg = msg.id;
 						} else if (message.content === 'edit') {
 							currentEmbeds[k].status = 'editFieldId';
 							const msg = await message.channel.send('Please specify what field ID you want to edit');
 
 							// eslint-disable-next-line require-atomic-updates
-							currentEmbeds[k].deleteMsg = msg.id;
+							newDeleteMsg = msg.id;
+							changedSomething = true;
 						}
 					} else if (embed.status === 'deleteFieldId') {
 						newEmbed.fields.splice(parseInt(message.content), 1);
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === 'editFieldId') {
 						currentEmbeds[k].fieldEditId = parseInt(message.content);
 						currentEmbeds[k].status = 'editFieldData';
 						const msg = await message.channel.send('"title" to edit the field title, "content" to edit the field content, "inline" to toggle inline');
 
 						// eslint-disable-next-line require-atomic-updates
-						currentEmbeds[k].deleteMsg = msg.id;
+						newDeleteMsg = msg.id;
+						changedSomething = true;
 					} else if (embed.status === 'editFieldData') {
 						if (message.content === 'title') {
 							currentEmbeds[k].status = 'editFieldTitle';
 							const msg = await message.channel.send('Enter field title');
 
 							// eslint-disable-next-line require-atomic-updates
-							currentEmbeds[k].deleteMsg = msg.id;
+							newDeleteMsg = msg.id;
 						} else if (message.content === 'content') {
 							currentEmbeds[k].status = 'editFieldDescription';
 							const msg = await message.channel.send('Enter field description');
 
 							// eslint-disable-next-line require-atomic-updates
-							currentEmbeds[k].deleteMsg = msg.id;
+							newDeleteMsg = msg.id;
 						} else if (message.content === 'inline') {
 							currentEmbeds[k].status = 'editFieldInline';
 							const msg = await message.channel.send('Type "yes" for inline, "no" for not inline');
 
 							// eslint-disable-next-line require-atomic-updates
-							currentEmbeds[k].deleteMsg = msg.id;
+							newDeleteMsg = msg.id;
 						}
+						changedSomething = true;
 					} else if (embed.status === 'editFieldTitle') {
 						newEmbed.fields[embed.fieldEditId].name = message.content;
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === 'editFieldDescription') {
 						newEmbed.fields[embed.fieldEditId].value = message.content;
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === 'editFieldInline') {
 						newEmbed.fields[embed.fieldEditId].inline = message.content === 'yes' ? true : false;
 						currentEmbeds[k].status = null;
+						changedSomething = true;
 					} else if (embed.status === '✅') {
 						// confirm
 						if (message.content === 'confirm') {
 							currentEmbeds[k].status = 'getChannel';
 							message.channel.send('Please mention the channel you wish to send the embed to');
 						}
+						changedSomething = true;
 					} else if (embed.status === 'getChannel') {
 						// sending embed
 						message.mentions.channels.first().send(newEmbed);
 						message.channel.send('Sent embed to that channel');
 						currentEmbeds.splice(k, 1);
+						changedSomething = true;
 					} else if (embed.status === '🗑') {
 						// delete embed
 						currentEmbeds.splice(k, 1);
 						message.channel.send('Cancelled embed creation.');
+						changedSomething = true;
 					}
 
 					// write to old embed
 					embedMsg.edit(embedMsg.content, newEmbed)
 						.then()
 						.catch();
+
+					// delete msg (maybe)
+					if (currentEmbeds[k].deleteMsg && changedSomething) {
+						message.channel.fetchMessage(currentEmbeds[k].deleteMsg)
+							.then((msg) => {
+								msg.delete()
+									.catch();
+								if (newDeleteMsg) {
+									currentEmbeds[k].deleteMsg = newDeleteMsg;
+								};
+							})
+							.catch();
+					}
+
 
 
 					// delete info messages
@@ -199,6 +219,10 @@ bot.on('message', async message => {
 								.then(() => embed.infoMessage = null)
 								.catch())
 							.catch();
+					}
+
+					if (message.content === 'cancel') {
+						currentEmbeds[k].status = null;
 					}
 
 					message.delete()
