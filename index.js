@@ -4,7 +4,7 @@ const path = require('path');
 const discord = require('discord.js');
 const msgEmbedToRich = require('discordjs-embed-converter');
 
-const { prefix, roleGivePrefix, communityGuildId, communitySubmissionChannelId, reaction, reactionsNeeded } = require('./config.json');
+const { prefix, roleGivePrefix, communityGuildId, communitySubmissionChannelId, commandChannel, reaction, reactionsNeeded } = require('./config.json');
 
 const addRole = require('./functions/addRole');
 const checkReward = require('./functions/checkReward');
@@ -262,7 +262,9 @@ bot.on('message', async message => {
 	const command = args.shift().toLowerCase();
 
 	if (bot.commands.get(command)) {
-		bot.commands.get(command).execute(message, args);
+		if ((bot.commands.get(command).requiresCommandChannel && message.channel.id === commandChannel) || !bot.commands.get(command).requiresCommandChannel) {
+			bot.commands.get(command).execute(message, args);
+		}
 	}
 });
 

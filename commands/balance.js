@@ -6,6 +6,7 @@ const getUserEconomy = require('../functions/getUserEcomony.js');
 module.exports = {
 	name: 'balance',
 	description: 'Gets a user\'s balance',
+	requiresCommandChannel: true,
 	async execute(message, args) {
 		const user = message.author;
 

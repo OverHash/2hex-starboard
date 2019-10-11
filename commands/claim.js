@@ -9,6 +9,7 @@ const economyPath = './economy.json';
 module.exports = {
 	name: 'daily',
 	description: 'Claims the daily economy reward',
+	requiresCommandChannel: true,
 	execute(message, args) {
 		const user = message.author;
 
