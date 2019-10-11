@@ -6,8 +6,12 @@ const msgEmbedToRich = require('discordjs-embed-converter');
 
 const { prefix, roleGivePrefix, communityGuildId, communitySubmissionChannelId, reaction, reactionsNeeded } = require('./config.json');
 
-const addRole = require('./functions/addRole.js');
-const createArchive = require('./functions/createArchive.js');
+const addRole = require('./functions/addRole');
+const checkReward = require('./functions/checkReward');
+const createArchive = require('./functions/createArchive');
+const getUserEconomy = require('./functions/getUserEcomony');
+
+const economyPath = 'economy.json';
 
 
 const bot = new discord.Client();
@@ -47,6 +51,20 @@ bot.on('ready', () => {
 });
 
 bot.on('message', async message => {
+	/* Check for money */
+	if (checkReward(message.author)[3] && !message.author.bot) {
+		// user can claim a reward
+		const economy = JSON.parse(fs.readFileSync(economyPath, 'utf-8'));
+		const userEconomny = getUserEconomy(message.author);
+
+		userEconomny.balance += Math.floor(Math.random() * (25 - 10)) + 10;
+		userEconomny.lastMessageTime = Date.now();
+
+		economy[economy.findIndex(data => data.id === userEconomny.id)] = userEconomny;
+
+		fs.writeFileSync(economyPath, JSON.stringify(economy, null, 4));
+	}
+
 	/* Check to see if it is a new submission */
 	if (message.channel.id === (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId) && (message.attachments.first() || (message.embeds[0] && (message.embeds[0].image || message.embeds[0].video)))) {
 		message.react(process.env.REACTION || reaction);

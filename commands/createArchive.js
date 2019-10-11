@@ -7,7 +7,7 @@ const createArchive = require('../functions/createArchive.js')
 const createStarpost = require('../functions/createStarpost.js');
 
 module.exports = {
-	name: 'createArchive',
+	name: 'feature',
 	description: 'Creates an archive',
 	async execute(message, args) {
 		if (!isModerator(message.member)) return message.channel.send('You are unable to use this command!').delete(2500);

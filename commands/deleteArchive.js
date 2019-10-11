@@ -6,7 +6,7 @@ const isModerator = require('../functions/isModerator.js');
 const getStarboard = require('../functions/getStarboard.js');
 
 module.exports = {
-	name: 'deleteArchive',
+	name: 'aremove',
 	description: 'Deletes an archive given a archive number',
 	async execute(message, args) {
 		const archiveNumber = args[0];
