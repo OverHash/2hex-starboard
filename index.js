@@ -66,8 +66,11 @@ bot.on('message', async message => {
 	}
 
 	/* Check to see if it is a new submission */
-	if (message.channel.id === (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId) && (message.attachments.first() || (message.embeds[0] && (message.embeds[0].image || message.embeds[0].video)))) {
-		message.react(process.env.REACTION || reaction);
+	if (message.channel.id === (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId)) {
+		console.log('Message from ' + message.member.displayName + ' has embed type ' + (message.embeds[0] ? message.embeds[0].type : ' no embed') + ' with url ' + (message.embeds[0].url ? message.embeds[0].url : ' no url'));
+		if (message.attachments.first() || (message.embeds[0] && (message.embeds[0].image || message.embeds[0].video))) {
+			message.react(process.env.REACTION || reaction);
+		}
 	}
 
 	/* Check to see if it is a role give */
@@ -223,11 +226,10 @@ bot.on('message', async message => {
 									.catch();
 								if (newDeleteMsg) {
 									currentEmbeds[k].deleteMsg = newDeleteMsg;
-								};
+								}
 							})
 							.catch();
 					}
-
 
 
 					// delete info messages
@@ -240,6 +242,7 @@ bot.on('message', async message => {
 					}
 
 					if (message.content === 'cancel') {
+						// eslint-disable-next-line require-atomic-updates
 						currentEmbeds[k].status = null;
 					}
 
