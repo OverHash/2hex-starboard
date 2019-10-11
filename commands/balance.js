@@ -16,7 +16,7 @@ module.exports = {
 		const balance_embed = new discord.RichEmbed()
 			.setAuthor(message.member.displayName, message.author.displayAvatar)
 			.setTitle('Balance')
-			.setDescription(`You have ${data.balance} to spend!\n\n${check_reward[2] ? 'You can claim your daily reward with -claim' : `You can claim your next daily reward in ${new Date(check_reward[1] - check_reward[0]).toISOString().substr(11, 8)}`}`)
+			.setDescription(`You have $${data.balance} to spend!\n\n${check_reward[2] ? 'You can claim your daily reward with -daily' : `You can claim your next daily reward in ${new Date(check_reward[1] - check_reward[0]).toISOString().substr(11, 8)}`}`)
 			.setColor('#431075')
 			.setFooter('Bot made by OverHash#6449')
 			.setTimestamp();

@@ -34,6 +34,8 @@ module.exports = {
 				.setFooter('Bot made by OverHash#6449')
 				.setTimestamp();
 
+			economy[economy.findIndex(userData => userData.id === userEconomny.id)] = userEconomny
+
 			fs.writeFileSync(economyPath, JSON.stringify(economy, null, 4));
 
 			return message.channel.send(balanceEmbed);
