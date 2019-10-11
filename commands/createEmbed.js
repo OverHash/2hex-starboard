@@ -24,7 +24,7 @@ module.exports = {
 		// create new embed generator
 		message.channel.send('Your current embed looks like this.\n\n:a: - Change title\n:rainbow: - Change Color\n:link: - Change URL\n:footprints: - Change footer\n:clock7: - Toggle timestamp\n:e_mail: - Change description\n:regional_indicator_f: - Edit fields\n:white_check_mark: - Proceed to sending!\n:wastebasket: - Delete embed', new discord.RichEmbed())
 			.then(async (msg) => {
-				currentEmbeds.push({ author: message.author.id, id: msg.id });
+				currentEmbeds.push({ author: message.author.id, id: msg.id, channelId: message.channel.id });
 
 				await fs.writeFileSync(path.resolve(__dirname, '../markedEmbeds.json'), JSON.stringify(currentEmbeds, null, 4));
 

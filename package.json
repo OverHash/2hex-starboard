@@ -15,7 +15,8 @@
 		"url": "https://github.com/OverHash/2hex-starboard/issues"
 	},
 	"scripts": {
-		"start": "clear && node ."
+		"start": "clear && node .",
+		"restart": "pm2 flush && pm2 restart index && pm2 logs index --lines 1000"
 	},
 	"license": "0BSD",
 	"author": {

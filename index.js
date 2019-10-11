@@ -83,7 +83,7 @@ bot.on('message', async message => {
 	for (const k in currentEmbeds) {
 		const embed = currentEmbeds[k];
 
-		if (embed.author === message.author.id && embed.status) {
+		if (embed.author === message.author.id && embed.status && embed.channelId === message.channel.id) {
 			message.channel.fetchMessage(embed.id)
 				.then(async embedMsg => {
 					const oldEmbed = embedMsg.embeds[0];
@@ -252,7 +252,7 @@ bot.on('message', async message => {
 					// save
 					fs.writeFileSync(path.resolve(__dirname, './markedEmbeds.json'), JSON.stringify(currentEmbeds, null, 4));
 				})
-				.catch();
+				.catch(() => console.log('Error related to embeds'));
 		}
 	}
 

@@ -1,8 +1,9 @@
 .env
 node_modules
 json.sqlite
-economy.json
 markedEmbeds.json
 package-lock.json
 .gitignore
 config.json
+economy.json
+markedEmbeds.json
