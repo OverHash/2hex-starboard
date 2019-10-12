@@ -57,7 +57,7 @@ bot.on('message', async message => {
 		const economy = JSON.parse(fs.readFileSync(economyPath, 'utf-8'));
 		const userEconomny = getUserEconomy(message.author);
 
-		userEconomny.balance += Math.floor(Math.random() * (25 - 10)) + 10;
+		userEconomny.balance += Math.floor(Math.random() * (15 - 5)) + 5;
 		userEconomny.lastMessageTime = Date.now();
 
 		economy[economy.findIndex(data => data.id === userEconomny.id)] = userEconomny;
