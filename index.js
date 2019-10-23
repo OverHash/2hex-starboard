@@ -205,7 +205,6 @@ bot.on('message', async message => {
 						message.mentions.channels.first().send(newEmbed);
 						message.channel.send('Sent embed to that channel');
 						currentEmbeds.splice(k, 1);
-						changedSomething = true;
 					} else if (embed.status === '🗑') {
 						// delete embed
 						currentEmbeds.splice(k, 1);
@@ -219,7 +218,7 @@ bot.on('message', async message => {
 						.catch();
 
 					// delete msg (maybe)
-					if (currentEmbeds[k].deleteMsg && changedSomething) {
+					if (changedSomething && currentEmbeds[k] && currentEmbeds[k].deleteMsg) {
 						message.channel.fetchMessage(currentEmbeds[k].deleteMsg)
 							.then((msg) => {
 								msg.delete()
@@ -247,12 +246,12 @@ bot.on('message', async message => {
 					}
 
 					message.delete()
-						.catch();
+						.catch(console.warn);
 
 					// save
 					fs.writeFileSync(path.resolve(__dirname, './markedEmbeds.json'), JSON.stringify(currentEmbeds, null, 4));
 				})
-				.catch(() => console.log('Error related to embeds'));
+				.catch(err => console.log('Error related to embeds: ' + err));
 		}
 	}
 
