@@ -5,7 +5,7 @@ const path = require('path');
 const isModerator = require('../functions/isModerator.js');
 
 module.exports = {
-	name: 'creatEembed',
+	name: 'embed',
 	description: 'Creates an embed for a desired channel',
 	async execute(message) {
 		// check if user has a pre-existing embed

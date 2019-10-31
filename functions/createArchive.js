@@ -2,7 +2,7 @@ const quickDb = require('quick.db');
 const discord = require('discord.js');
 
 const { starboardGuildId } = require('../config.json');
-const getStarboard = require('../functions/getStarboard.js')
+const getStarboard = require('../functions/getStarboard.js');
 const createStarpost = require('../functions/createStarpost.js');
 
 module.exports = async function(message) {
@@ -35,7 +35,8 @@ module.exports = async function(message) {
 				.addField('Jump to archive', '[jump](https://discordapp.com/channels/' + msg.guild.id + '/' + msg.channel.id + '/' + msg.id + ')', true)
 				.addField('Invite to archive server', '[Invite](http://devarchives.xyz/archives)', true)
 
-				.setTimestamp();
+				.setTimestamp()
+				.setFooter('Archive ID ' + currentArchive);
 
 			message.author.send(embedMessage)
 				.catch(() => {

@@ -1,10 +1,6 @@
-const quickDb = require('quick.db');
-
 const { starboardGuildId } = require('../config.json');
 const isModerator = require('../functions/isModerator.js');
-const getStarboard = require('../functions/getStarboard.js');
-const createArchive = require('../functions/createArchive.js')
-const createStarpost = require('../functions/createStarpost.js');
+const createArchive = require('../functions/createArchive.js');
 
 module.exports = {
 	name: 'feature',
@@ -19,7 +15,8 @@ module.exports = {
 
 		message.channel.fetchMessage(submissionId)
 			.then(submission => {
-				createArchive(message);
+				createArchive(submission);
+				message.delete();
 			})
 			.catch(err => {
 				console.log(err);

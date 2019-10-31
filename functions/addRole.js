@@ -22,6 +22,7 @@ const allowedRoles = [
 	'Program Helper',
 	'Design Helper',
 	'UI Helper',
+	'Subscriber',
 ];
 
 module.exports = function(message) {
