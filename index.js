@@ -70,15 +70,10 @@ bot.on('message', async message => {
 		const attachment = message.attachments.first();
 		const embed = message.embeds[0];
 
-		console.log(embed);
 		if (attachment) {
-			console.log('There was an attachment, reacting');
 			message.react(process.env.REACTION || reaction);
 		} else if (embed && (embed.image || embed.video || embed.thumbnail)) {
-			console.log('There was a embed, reacting!');
-			message.react(process.env.REACTION || reaction)
-				.then(() => console.log('reacted'))
-				.catch(() => console.log('Failed to react'));
+			message.react(process.env.REACTION || reaction);
 		}
 	}
 
