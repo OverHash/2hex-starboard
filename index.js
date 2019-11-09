@@ -40,7 +40,7 @@ bot.on('ready', () => {
 
 		if (submissionChannel) {
 			submissionChannel.fetchMessages()
-				.then(pastMessages => pastMessages.filter(message => (message.attachments.first() || (message.embeds[0] && (message.embeds[0].image || message.embeds[0].video)))).forEach(message => message.react(process.env.REACTION || reaction)))
+				.then(pastMessages => pastMessages.filter(message => (message.attachments.first() || (message.embeds[0] && (message.embeds[0].image || message.embeds[0].video || message.embeds[0].thumbnail)))).forEach(message => message.react(process.env.REACTION || reaction)))
 				.catch(console.error);
 		}
 	} else {
@@ -67,8 +67,18 @@ bot.on('message', async message => {
 
 	/* Check to see if it is a new submission */
 	if (message.channel.id === (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId)) {
-		if (message.attachments.first() || (message.embeds[0] && (message.embeds[0].image || message.embeds[0].video))) {
+		const attachment = message.attachments.first();
+		const embed = message.embeds[0];
+
+		console.log(embed);
+		if (attachment) {
+			console.log('There was an attachment, reacting');
 			message.react(process.env.REACTION || reaction);
+		} else if (embed && (embed.image || embed.video || embed.thumbnail)) {
+			console.log('There was a embed, reacting!');
+			message.react(process.env.REACTION || reaction)
+				.then(() => console.log('reacted'))
+				.catch(() => console.log('Failed to react'));
 		}
 	}
 
