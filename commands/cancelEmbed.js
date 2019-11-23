@@ -4,7 +4,6 @@ const path = require('path');
 module.exports = {
 	name: 'cancelEmbed',
 	description: 'Cancels a given embed',
-	requiresCommandChannel: true,
 	execute: (message) => {
 		const currentEmbeds = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../markedEmbeds.json')));
 		if (currentEmbeds) {
