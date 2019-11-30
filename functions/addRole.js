@@ -23,6 +23,7 @@ const allowedRoles = [
 	'Design Helper',
 	'UI Helper',
 	'Subscriber',
+	'3D Modeler'
 ];
 
 module.exports = function(message) {
