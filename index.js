@@ -130,6 +130,16 @@ bot.on('message', async message => {
 						newEmbed.setDescription(message.content);
 						currentEmbeds[k].status = null;
 						changedSomething = true;
+					} else if (embed.status === '🧔') {
+						// mention roles
+						if (message.content === 'everyone' || message.content === 'here') {
+							currentEmbeds[k].roleToMention = '@' + message.content;
+						} else {
+							const guild = message.guild;
+							const role = guild.roles.find(rl => rl.name === message.content);
+							currentEmbeds[k].roleToMention = '<@&' + role.name + '>';
+						}
+						currentEmbeds[k].status = null;
 					} else if (embed.status === '🇫') {
 						// edit field
 						if (message.content === 'create') {
@@ -206,7 +216,8 @@ bot.on('message', async message => {
 						changedSomething = true;
 					} else if (embed.status === 'getChannel') {
 						// sending embed
-						message.mentions.channels.first().send(newEmbed);
+						console.log(embed.roleToMention, newEmbed);
+						message.mentions.channels.first().send(embed.roleToMention || '', newEmbed);
 						message.channel.send('Sent embed to that channel');
 						currentEmbeds.splice(k, 1);
 					} else if (embed.status === '🗑') {
@@ -278,6 +289,7 @@ const reactionMessages = {
 	'👣': 'Enter the footer text',
 	'🕖': 'Type \'on\', to turn on, \'off\', to turn off',
 	'📧': 'Enter embed description',
+	'🧔': 'Type \'here\', \'everyone\', \'gamejam\', \'subscriber\' to mention that role',
 	'🇫': 'Type \'create\' to create embed field, \'delete\' to delete embed field, \'edit\' to edit embed field',
 	'✅': 'Type \'confirm\' to confirm create embed',
 	'🗑': 'Type \'confirm\' to confirm delete embed',
@@ -290,6 +302,7 @@ const fields = {
 	'👣': 'the embed footer',
 	'🕖': 'the embed timestamp',
 	'📧': 'the description',
+	'🧔': 'the role to mention',
 	'🇫': 'an embed field',
 	'✅': 'the embed confirmation',
 	'🗑': 'the embed delete status',

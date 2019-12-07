@@ -22,7 +22,7 @@ module.exports = {
 		if (!isModerator(message.member)) return message.channel.send('You are required to be a moderator to execute this command!');
 
 		// create new embed generator
-		message.channel.send('Your current embed looks like this.\n\n:a: - Change title\n:rainbow: - Change Color\n:link: - Change URL\n:footprints: - Change footer\n:clock7: - Toggle timestamp\n:e_mail: - Change description\n:regional_indicator_f: - Edit fields\n:white_check_mark: - Proceed to sending!\n:wastebasket: - Delete embed', new discord.RichEmbed())
+		message.channel.send('Your current embed looks like this.\n\n:a: - Change title\n:rainbow: - Change Color\n:link: - Change URL\n:footprints: - Change footer\n:clock7: - Toggle timestamp\n:e_mail: - Change description\n:bearded_person: - Edit role to mention\n:regional_indicator_f: - Edit fields\n:white_check_mark: - Proceed to sending!\n:wastebasket: - Delete embed', new discord.RichEmbed())
 			.then(async (msg) => {
 				currentEmbeds.push({ author: message.author.id, id: msg.id, channelId: message.channel.id });
 
@@ -34,6 +34,7 @@ module.exports = {
 				await msg.react('👣');
 				await msg.react('🕖');
 				await msg.react('📧');
+				await msg.react('🧔');
 				await msg.react('🇫');
 				await msg.react('✅');
 				await msg.react('🗑');
