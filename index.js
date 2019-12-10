@@ -137,7 +137,8 @@ bot.on('message', async message => {
 						} else {
 							const guild = message.guild;
 							const role = guild.roles.find(rl => rl.name === message.content);
-							currentEmbeds[k].roleToMention = '<@&' + role.name + '>';
+							currentEmbeds[k].roleToMention = '<@&' + role.id + '>';
+							currentEmbeds[k].actualRoleToMention = role;
 						}
 						currentEmbeds[k].status = null;
 					} else if (embed.status === '🇫') {
@@ -216,8 +217,13 @@ bot.on('message', async message => {
 						changedSomething = true;
 					} else if (embed.status === 'getChannel') {
 						// sending embed
-						console.log(embed.roleToMention, newEmbed);
+						if (embed.actualRoleToMention) {
+							embed.actualRoleToMention.setMentionable(true, 'Enable to allow announcement');
+						}
 						message.mentions.channels.first().send(embed.roleToMention || '', newEmbed);
+						if (embed.actualRoleToMention) {
+							embed.actualRoleToMention.setMentionable(false, 'Disable after announcement');
+						}
 						message.channel.send('Sent embed to that channel');
 						currentEmbeds.splice(k, 1);
 					} else if (embed.status === '🗑') {
