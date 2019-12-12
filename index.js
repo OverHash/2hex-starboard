@@ -138,7 +138,7 @@ bot.on('message', async message => {
 							const guild = message.guild;
 							const role = guild.roles.find(rl => rl.name === message.content);
 							currentEmbeds[k].roleToMention = '<@&' + role.id + '>';
-							currentEmbeds[k].actualRoleToMention = role.id;
+							currentEmbeds[k].actualRoleToMention = role;
 						}
 						currentEmbeds[k].status = null;
 					} else if (embed.status === '🇫') {
@@ -217,13 +217,12 @@ bot.on('message', async message => {
 						changedSomething = true;
 					} else if (embed.status === 'getChannel') {
 						// sending embed
-						const role = message.guild.roles.find(rl => rl.id === embed.actualRoleToMention);
-						if (role) {
-							await role.setMentionable(true, 'Enable to allow announcement');
+						if (embed.actualRoleToMention) {
+							embed.actualRoleToMention.setMentionable(true, 'Enable to allow announcement');
 						}
-						await message.mentions.channels.first().send(embed.roleToMention || '', newEmbed);
-						if (role) {
-							role.setMentionable(false, 'Disable after announcement');
+						message.mentions.channels.first().send(embed.roleToMention || '', newEmbed);
+						if (embed.actualRoleToMention) {
+							embed.actualRoleToMention.setMentionable(false, 'Disable after announcement');
 						}
 						message.channel.send('Sent embed to that channel');
 						currentEmbeds.splice(k, 1);
