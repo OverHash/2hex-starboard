@@ -48,6 +48,8 @@ bot.on('ready', () => {
 	}
 
 	console.log('submission channel ID: ' + (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId));
+
+	guild.channels.find(chnl => chnl.id === 649070548676247563).send('Bot has updated.');
 });
 
 bot.on('message', async message => {
