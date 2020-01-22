@@ -8,7 +8,6 @@ export = (client: Client, message: Message, args: Array<string>, errorFunction: 
 
 	const command = commands.get(commandRequested);
 	if (!command) return;
-	if (!(message.channel.type === 'dm' && message.member)) return;
 	
 	const invalidPermission = new MessageEmbed()
 		.setColor(settings.colors.FAILED)
@@ -26,7 +25,16 @@ export = (client: Client, message: Message, args: Array<string>, errorFunction: 
 	
 
 	if (command.props.data.type === 'mod') {
-		if (!message.member.roles.get(settings.modRoleId)) return message.channel.send(invalidPermission);
+		// get the server guild
+		const guild = client.guilds.get(settings.communityGuildId);
+		if (!guild) return message.channel.send('I was unable to find the main guild. Please contact 2Hex!');
+
+		// get the member in guild
+		const member = guild.members.get(message.author.id);
+		if (!member) return message.channel.send('Are you in devarchives? I was unable to find you');
+
+		// check they have permission
+		if (!member.roles.get(settings.modRoleId)) return message.channel.send(invalidPermission);
 	}
 
 	if (settings.logging.onCommandRanLog) {
