@@ -1,6 +1,6 @@
 export const settings = {
 	// token/prefix
-	token: "",
+	token: process.env.token,
 	prefix: "-",
 	roleGivePrefix: '!',
 
