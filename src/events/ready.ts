@@ -1,15 +1,15 @@
 import { settings } from "../config"
-import { Client, RichEmbed, TextChannel } from "discord.js"
+import { Client, MessageEmbed, TextChannel } from "discord.js"
 
 module.exports = (client: Client) => {
-	if (settings.createReadyMessage) {
+	if (settings.createReadyMessage && client.user) {
 		console.log(`Logged in as ${client.user.tag} at ${new Date()}`)
 
 		client.user.setActivity('devarchives', {
 			type: 'WATCHING',
 		})
 
-		const readyEmbed = new RichEmbed()
+		const readyEmbed = new MessageEmbed()
 			.setTitle(`${client.user.username} logged in!`)
 			.setColor(settings.colors.SUCCESS)
 			.setTimestamp();
