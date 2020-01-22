@@ -1,8 +1,11 @@
 export const settings = {
 	// token/prefix
-	token: "NjEzNTg4NzI3OTk4MDU0NDAy.XejPGw.ZvyxpnCaxHjPscxN3eOllS0AthY",
+	token: "",
 	prefix: "-",
 	roleGivePrefix: '!',
+
+	// command config
+	modRoleId: '615022827334139905',
 
 	// starboard stuff
 	communityGuildId: '613587353084231730',
@@ -13,13 +16,21 @@ export const settings = {
 
 	// ready config
 	createReadyMessage: true,
-	readyMessageChannelId: '632026661251973150',
+	readyMessageChannelId: '669013786233012262',
+
+	// logging
+	logging: {
+		channelId: '669013786233012262',
+
+		onMessageDeletedLog: true,
+		onCommandRanLog: true
+	},
 
 	// colors
 	colors: {
-		"DEFAULT": "3483eb",
-		"SUCCESS": '09deac',
+		"DEFAULT": "6d89ea",
+		"SUCCESS": '43B581',
 		"FAILED": 'fc5656',
 		"HAZARD": 'fc9e3a'
-	}
+	},
 }
