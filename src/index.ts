@@ -7,20 +7,6 @@ const db = database;
 
 const bot = new Client();
 
-bot.on('ready', () => {
-	console.log('logged in');
-})
-
-bot.on('message', message => {
-	const guild = message.guild;
-
-	if (guild && guild.available) {
-		guild.roles.forEach(role => {
-			console.log(role.name, role.position, role.rawPosition)
-		})
-	}
-})
-
 fs.readdir('./events/', (err, files) => {
 	if (err) return console.log(err);
 
