@@ -1,6 +1,3 @@
-node_modules
-json.sqlite
-markedEmbeds.json
-economy.json
-config.json
+node_modules/
+.env
 .env
