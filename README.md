@@ -14,16 +14,7 @@ npm install discord.js
 <br> <br>
 Note that with discord.js it is required to have python 2.x (preferably 2.6) and if on windows, the Visual C++ Build Tools (`npm install --global windows-build-tools --vs2015`)
 
-Then, configure the config.json file to have the properties set up as you like:<br>
-`prefix`(any) - The prefix for the bot<br>
-`roleGivePrefix` (string) - the prefix users can you use to give/remove roles<br>
-`communityGuildId`(string) - The community guild where users can post submissions<br>
-`starboardGuildId`(string) - The starboard guild id where submissions past `reactionsNeeded` will go<br>
-`starboardChannelId` - The guild where the starboard goes<br>
-`reaction` - What reaction is given to all submissions<br>
-`reactionsNeeded` - The amount of reactions needed for a post to go from community board --> starboard<br>
-
-# Enviromental Variables
+# Enviromental Variables | Config
 `BOT_TOKEN` = bot token<br>
 `PREFIX` = the prefix for all the bot commands<br>
 `ROLEGIVEPREFIX` = the prefix users use to give/remove roles<br>
