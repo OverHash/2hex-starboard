@@ -6,8 +6,6 @@ class database {
 	constructor(dbFilePath: string) {
 		this.db = new sqlite.Database(dbFilePath, (err) => {
 			if (err) throw `Could not connect to database: ${err}`;
-
-			console.log('Connected to database');
 		})
 	}
 
