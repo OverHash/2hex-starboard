@@ -23,18 +23,21 @@
 		"name": "OverHash",
 		"url": "https://github.com/OverHash"
 	},
-	"main": "index.ts",
+	"main": "index.js",
 	"bin": "bin.js",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/OverHash/2hex-starboard"
 	},
 	"dependencies": {
-		"@types/node": "^12.12.14",
-		"@types/sqlite3": "^3.1.6",
-		"bluebird": "^3.7.2",
 		"discord.js": "^11.5.1",
-		"sqlite3": "^4.1.1"
+		"discordjs-embed-converter": "^1.2.2",
+		"dotenv": "^8.1.0",
+		"eslintrc": "^1.0.6",
+		"quick.db": "^7.0.0-b22"
 	},
-	"devDependencies": {}
+	"devDependencies": {
+		"eslint": "^6.2.1",
+		"eslint-config-google": "^0.13.0"
+	}
 }
