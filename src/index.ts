@@ -21,6 +21,21 @@ fs.readdir('./events/', (err, files) => {
 	})
 })
 
+fs.readdir('./runners/', (err, files) => {
+	if (err) return console.log(err);
+
+	files.forEach(file => {
+		if (!file.endsWith('.js')) return;
+
+		// check to see if there is runner
+		const exportedFile = require(`./runners/${file}`);
+
+		for (const event of exportedFile) {
+			bot.on(event.name, event.run.bind(null, bot))
+		}
+	})
+})
+
 db.initiate()
 	.then(() => bot.login(settings.token))
 	.catch(err => console.log('Failed to initiate database/login to discord client: ' + err))
