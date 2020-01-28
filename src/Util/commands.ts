@@ -9,7 +9,8 @@ export type commandProps = {
 			type: 'mod' | 'everyone',
 			name: string,
 			description: string,
-			usage: Array<string>
+			usage: Array<string>,
+			hide?: boolean
 		}
 	},
 
