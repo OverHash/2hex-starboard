@@ -29,7 +29,10 @@ module.exports = {
 
 			message.channel.send(commandData);
 		} else {
-			const sortedCommands = commands.clone().sort((a, b) => a.props.data.name.localeCompare(b.props.data.name))
+			const sortedCommands = commands
+				.clone()
+				.filter(c => !c.props.data.hide)
+				.sort((a, b) => a.props.data.name.localeCompare(b.props.data.name))
 
 			const filteredCommands: Array<commandProps> = [];
 			for (const [_, item] of sortedCommands.entries()) {
@@ -40,15 +43,19 @@ module.exports = {
 
 			noArgsEmbed.addField('Commands', filteredCommands.map(command => `${command.props.data.name} ➜ \`${command.props.data.usage[0]}\`\n`).join("").replace(/!/g, settings.prefix));
 
-			message.author.send(noArgsEmbed);
+			message.author.send(noArgsEmbed)
+				.then(() => {
+					if (message.channel.type !== 'dm') {
+						message.channel.send(new MessageEmbed()
+							.setTitle('Help')
+							.setDescription('I have sent you my list of commands, please check your DMs!')
+							.setColor(settings.colors.DEFAULT)
+							.setFooter(message.author.tag, message.author.displayAvatarURL()));
+					}
+				})
+				.catch(() => message.reply('I was unable to DM you, check your privacy setings?'))
 
-			if (message.channel.type !== 'dm') {
-				message.channel.send(new MessageEmbed()
-					.setTitle('Help')
-					.setDescription('I have sent you my list of commands, please check your DMs!')
-					.setColor(settings.colors.DEFAULT)
-					.setFooter(message.author.tag, message.author.displayAvatarURL()));
-			}
+			
 		}
 	}
 } as commandProps
