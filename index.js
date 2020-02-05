@@ -49,6 +49,8 @@ bot.on('ready', () => {
 
 	console.log('submission channel ID: ' + (process.env.COMMUNITYSUBMISSIONCHANNELID || communitySubmissionChannelId));
 
+	guild.members.map(m => m.addRoles(['674373990789152829', '674378904647237694'], '2Hex told me too!'));
+
 	guild.channels.find(chnl => chnl.id === 649070548676247563).send('Bot has updated.');
 });
 
