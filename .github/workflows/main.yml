@@ -15,6 +15,7 @@ jobs:
         port: ${{ secrets.VPS_PORT }}
         script: |
           cd 2hex-starboard
-          git pull origin master
+          git fetch --all
+          git reset --hard origin/master
           pm2 flush
           pm2 restart index
