@@ -3,8 +3,6 @@ import { settings } from "./config";
 import database = require("./Util/database");
 import fs = require('fs');
 
-const db = database;
-
 const bot = new Client();
 
 fs.readdir('./events/', (err, files) => {
@@ -36,6 +34,6 @@ fs.readdir('./runners/', (err, files) => {
 	})
 })
 
-db.initiate()
+database.initiate()
 	.then(() => bot.login(settings.token))
 	.catch(err => console.log('Failed to initiate database/login to discord client: ' + err))
