@@ -9,6 +9,11 @@ class database {
 		})
 	}
 
+	/**
+	 * Runs the SQL query with the specified parameters. It returns the **first** row afterwards.
+	 * @param sql The SQL query to run
+	 * @param params When the sQL statement contains placeholders, you can pass them in here.
+	 */
 	get(sql: string, params: Array<any> = []) {
 		return new Promise((resolve, reject) => {
 			this.db.get(sql, params, (err, result) => {
@@ -23,6 +28,11 @@ class database {
 		})
 	}
 
+	/**
+	 * Runs the SQL query with the specified parameters. **It does not retrieve any result data.**
+	 * @param sql The SQL query to run
+	 * @param params When the sQL statement contains placeholders, you can pass them in here.
+	 */
 	run(sql: string, params: Array<any> = []): Promise<void> {
 		return new Promise((resolve, reject) => {
 			this.db.run(sql, params, (err) => {
@@ -37,6 +47,11 @@ class database {
 		})
 	}
 
+	/**
+	 * Runs the SQL query with the specified parameters. Returns **all** result rows afterwards.
+	 * @param sql The SQL query to run
+	 * @param params When the sQL statement contains placeholders, you can pass them in here.
+	 */
 	all(sql: string, params: Array<any> = []) {
 		return new Promise((resolve, reject) => {
 			this.db.all(sql, params, (err, data) => {
