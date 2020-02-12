@@ -22,7 +22,7 @@ module.exports = [
 						stats.balance += Math.floor(Math.random() * (5 - 2) + 2);
 
 						// update sql database
-						database.run(`UPDATE economy SET lastMessageTime = '${stats.lastMessageTime}', balance = ${stats.balance};`)
+						database.run(`UPDATE economy SET lastMessageTime = '${stats.lastMessageTime}', balance = ${stats.balance} WHERE authorId = '${message.author.id}';`)
 							.catch(err => console.log('Error updating economy for ' + message.author.username + '.\n' + err))
 					}
 				})
