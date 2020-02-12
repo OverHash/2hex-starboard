@@ -30,9 +30,11 @@
 		"url": "https://github.com/OverHash/2hex-starboard"
 	},
 	"dependencies": {
+		"@types/dateformat": "^3.0.1",
 		"@types/node": "^12.12.14",
 		"@types/sqlite3": "^3.1.6",
 		"bluebird": "^3.7.2",
+		"dateformat": "^3.0.3",
 		"discord.js": "github:discordjs/discord.js",
 		"fp-ts": "^2.4.4",
 		"io-ts": "^2.0.6",
