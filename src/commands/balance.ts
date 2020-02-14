@@ -27,10 +27,8 @@ module.exports = {
 			.then(data => {
 				const oldClaimTime = new Date(data.lastDailyRewardClaimTime);
 				const nextClaimTime = new Date(oldClaimTime.getTime() + 1000 * 60 * 60 * 24);
-				console.log(nextClaimTime.toISOString(), oldClaimTime.toISOString())
 
 				const waitTime = nextClaimTime.getTime() - Date.now();
-				console.log(waitTime)
 
 				let result: string;
 				if (waitTime < 0) {
@@ -40,6 +38,7 @@ module.exports = {
 					const hours = ("0" + Math.floor(waitTime / 1000 / 60 / 60)).slice(-2);
 					const minutes = ("0" + Math.floor(waitTime / 1000 / 60 % 60)).slice(-2);
 					const seconds = ("0" + Math.floor(waitTime / 1000 % 60)).slice(-2);
+					
 					result = `In ${hours}:${minutes}:${seconds}`
 				}
 
