@@ -21,7 +21,7 @@ module.exports = (client: Client, message: Message) => {
 			.setColor(settings.colors.FAILED)
 		
 		// we must do this as `get` can return nil, but also because it could be of wrong type. currently there is no API to get a channel of type
-		const loggingChannelGet = client.channels.get(settings.readyMessageChannelId);
+		const loggingChannelGet = client.channels.cache.get(settings.readyMessageChannelId);
 		if (!loggingChannelGet) throw 'Failed to get logging channel, check config.logging.channelId';
 		if (!(loggingChannelGet.type === 'text')) throw 'Logging channel is not of type text, check config.logging.channelId';
 
