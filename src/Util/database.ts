@@ -84,8 +84,21 @@ class database {
 				balance integer NOT NULL,
 				lastDailyRewardClaimTime varchar(20) NOT NULL,
 				lastMessageTime varchar(20) NOT NULL
-			);`)
-
+			);`);
+			this.run(`
+			CREATE TABLE IF NOT EXISTS archives (
+				archiveId integer PRIMARY KEY AUTOINCREMENT,
+				messageId varchar(20) NOT NULL,
+				archiveMessageId varchar(20) NOT NULL,
+				authorId varchar(20) NOT NULL
+			);`);
+			this.run(`
+			CREATE TABLE IF NOT EXISTS messageCache (
+				id integer PRIMARY KEY AUTOINCREMENT,
+				messageId varchar(20) NOT NULL
+			);
+			`);
+			
 			resolve()
 		})
 	}
