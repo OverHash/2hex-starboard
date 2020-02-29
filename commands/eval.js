@@ -1,4 +1,5 @@
 import { RichEmbed } from "discord.js";
+
 const settings = {
 	colors: {
 		"DEFAULT": "6d89ea",
@@ -8,11 +9,9 @@ const settings = {
 	},
 }
 
-const clean = (client, text) => {
-	return text
+const clean = (client, text) => text
 		.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203))
 		.replace(client.token || '', '[TOKEN]')
-}
 
 module.exports = {
 	name: 'eval',
@@ -35,13 +34,12 @@ module.exports = {
 			evaled = e.stack;
 			err = true;
 		}
+
 		const embed = new RichEmbed()
 			.addField("Input", "```xl\n" + clean(client, ev) + "```")
 			.addField("Output", "```xl\n" + clean(client, evaled).slice(0, 900) + "```")
 			.setTimestamp();
 		err ? embed.setColor(settings.colors.FAILED) : embed.setColor(settings.colors.SUCCESS);
 		if (!silent) message.channel.send(embed);
-
 	},
 };
-
