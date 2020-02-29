@@ -219,13 +219,7 @@ bot.on('message', async message => {
 						changedSomething = true;
 					} else if (embed.status === 'getChannel') {
 						// sending embed
-						if (embed.actualRoleToMention) {
-							embed.actualRoleToMention.setMentionable(true, 'Enable to allow announcement');
-						}
 						message.mentions.channels.first().send(embed.roleToMention || '', newEmbed);
-						if (embed.actualRoleToMention) {
-							embed.actualRoleToMention.setMentionable(false, 'Disable after announcement');
-						}
 						message.channel.send('Sent embed to that channel');
 						currentEmbeds.splice(k, 1);
 					} else if (embed.status === '🗑') {
