@@ -1,4 +1,4 @@
-import { RichEmbed } from "discord.js";
+const discord = require('discord.js');
 
 const settings = {
 	colors: {
@@ -35,7 +35,7 @@ module.exports = {
 			err = true;
 		}
 
-		const embed = new RichEmbed()
+		const embed = new discord.RichEmbed()
 			.addField("Input", "```xl\n" + clean(client, ev) + "```")
 			.addField("Output", "```xl\n" + clean(client, evaled).slice(0, 900) + "```")
 			.setTimestamp();
