@@ -1,4 +1,5 @@
 const discord = require('discord.js');
+const { inspect } = require("util");
 
 const settings = {
 	colors: {
