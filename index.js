@@ -138,9 +138,8 @@ bot.on('message', async message => {
 							currentEmbeds[k].roleToMention = '@' + message.content;
 						} else {
 							const guild = message.guild;
-							const role = guild.roles.find(rl => rl.name === message.content);
+							const role = guild.roles.find(rl => rl.name.toLowerCase() === message.content.toLowerCase());
 							currentEmbeds[k].roleToMention = '<@&' + role.id + '>';
-							currentEmbeds[k].actualRoleToMention = role;
 						}
 						currentEmbeds[k].status = null;
 					} else if (embed.status === '🇫') {
@@ -291,7 +290,7 @@ const reactionMessages = {
 	'👣': 'Enter the footer text',
 	'🕖': 'Type \'on\', to turn on, \'off\', to turn off',
 	'📧': 'Enter embed description',
-	'🧔': 'Type \'here\', \'everyone\', \'gamejam\', \'subscriber\' to mention that role',
+	'🧔': 'Type \'here\', \'everyone\', or the name of any role to ping',
 	'🇫': 'Type \'create\' to create embed field, \'delete\' to delete embed field, \'edit\' to edit embed field',
 	'✅': 'Type \'confirm\' to confirm create embed',
 	'🗑': 'Type \'confirm\' to confirm delete embed',
