@@ -2,7 +2,7 @@ const discord = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 
-const isModerator = require('../functions/isModerator.js');
+const isAuthenticatedUser = require('../functions/isAuthenticatedUser.js');
 
 module.exports = {
 	name: 'embed',
@@ -19,7 +19,7 @@ module.exports = {
 			}
 		}
 
-		if (!isModerator(message.member)) return message.channel.send('You are required to be a moderator to execute this command!');
+		if (!isAuthenticatedUser(message.member)) return message.channel.send('You are required to be a moderator to execute this command!');
 
 		// create new embed generator
 		message.channel.send('Your current embed looks like this.\n\n:a: - Change title\n:rainbow: - Change Color\n:link: - Change URL\n:footprints: - Change footer\n:clock7: - Toggle timestamp\n:e_mail: - Change description\n:bearded_person: - Edit role to mention\n:regional_indicator_f: - Edit fields\n:white_check_mark: - Proceed to sending!\n:wastebasket: - Delete embed', new discord.RichEmbed())
