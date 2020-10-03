@@ -12,7 +12,7 @@ export const settings = {
 	starboardGuildId: '613587300655562762',
 	communitySubmissionChannelId: '613587914911383559',
 	reaction: '⭐',
-	reactionsNeeded: 6,
+	reactionsNeeded: process.env.test ? 2 : 6,
 
 	// ready config
 	createReadyMessage: true,

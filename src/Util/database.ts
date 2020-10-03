@@ -14,7 +14,7 @@ class database {
 	 * @param sql The SQL query to run
 	 * @param params When the sQL statement contains placeholders, you can pass them in here.
 	 */
-	get(sql: string, params: Array<any> = []) {
+	get<T = void>(sql: string, params: Array<any> = []): Promise<T | undefined> {
 		return new Promise((resolve, reject) => {
 			this.db.get(sql, params, (err, result) => {
 				if (err) {

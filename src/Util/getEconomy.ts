@@ -1,6 +1,7 @@
 import { GuildMember } from "discord.js";
 import database = require('../Util/database');
 import * as t from "io-ts";
+import { economyGetResponse } from "./databaseTypings";
 
 export interface economyData {
 	economyId: number,
@@ -26,7 +27,6 @@ export function getEconomyData(member: GuildMember): Promise<economyData> {
 				// check if it exists && is valid type
 				if (userStats) {
 					if (!UserStats.is(userStats)) {
-						console.log(userStats);
 						return reject('Expected the match interface economyData, but it didn\'t.');
 					}
 
@@ -35,7 +35,7 @@ export function getEconomyData(member: GuildMember): Promise<economyData> {
 
 				// user has no data, let's create some
 				database.run(`INSERT INTO economy (authorId, balance, lastDailyRewardClaimTime, lastMessageTime) VALUES ('${member.id}', 0, '0', '0');`)
-					.then(() => database.get(`SELECT * FROM economy WHERE authorId = '${member.id}';`))
+					.then(() => database.get<economyGetResponse>(`SELECT * FROM economy WHERE authorId = '${member.id}';`))
 					.then((data: economyData) => resolve(data))
 					.catch(err => reject(err));
 			})

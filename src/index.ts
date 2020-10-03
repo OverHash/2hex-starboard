@@ -3,7 +3,8 @@ import { settings } from "./config";
 import database = require("./Util/database");
 import fs = require('fs');
 
-const bot = new Client();
+// enable partials for reactions on uncached messages
+const bot = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION']});
 
 fs.readdir('./events/', (err, files) => {
 	if (err) return console.log(err);
